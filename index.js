@@ -11,6 +11,8 @@ form.addEventListener('submit', function(event) {
     document.getElementById("content").innerHTML = currentKanji = arr[Math.floor(Math.random() * (arr.length - 1))];
     console.log(currentKanji)
     mainloop()
+    document.getElementById("stop").disabled = false
+    document.getElementById("submit").disabled = true
     // move()
 })
 
@@ -38,7 +40,7 @@ function mainloop() {
   myTimeout = setInterval(async () => {
     // move()
     displayCards();
-  }, 4000 /*Card time*/ );
+  }, 500 /*Card time*/ );
 }
    
 function displayCards() {
@@ -53,13 +55,23 @@ function sleep(ms) {
 }
 
 function pause() {
-  alert("Dừng")
+  console.log("Dừng")
   document.getElementById("content").innerHTML = currentKanji
+  document.getElementById("content").style.backgroundColor = "red"
+  document.getElementById("content").style.color = "white"
   clearInterval(myTimeout)
+  document.getElementById("stop").disabled = !document.getElementById("stop").disabled
+  document.getElementById("continue").disabled = !document.getElementById("continue").disabled
 }
 
 function resume() {
-  document.getElementById("content").innerHTML = currentKanji = arr[Math.floor(Math.random() * (arr.length - 1))];
-  console.log(currentKanji)
+    console.log("Tiếp tục")
+//   document.getElementById("content").innerHTML = currentKanji = arr[Math.floor(Math.random() * (arr.length - 1))];
+//   console.log(currentKanji)
+  document.getElementById("content").style.backgroundColor = "white"
+  document.getElementById("content").style.color = "black"
+  if (arr == []) return;
   mainloop()
+  document.getElementById("stop").disabled = !document.getElementById("stop").disabled
+  document.getElementById("continue").disabled = !document.getElementById("continue").disabled
 }

@@ -9,13 +9,13 @@
 <body>
     <form id="kanjiform">
         <input type="text" id="kanjiinput">
-        <input type="submit" value="Bắt đầu">
-        <button type="button" id="toggle" onclick="pause()">Dừng</button>
-        <button type="button" id="toggle" onclick="resume()">Tiếp tục</button>
+        <input type="submit" id="submit" value="Bắt đầu">
+        <button type="button" id="stop" onclick="pause()" disabled="true">Dừng</button>
+        <button type="button" id="continue" onclick="resume()" disabled="true">Tiếp tục</button>
     </form>
     <div id="content"></div>
     <script src="index.js"></script>
-    <br>
+    <!-- <br> -->
     <!-- <div id="myProgress">
         <div id="myBar"></div>
     </div> -->
