@@ -1,7 +1,15 @@
 # btl-kncn
-# test frontend
+## test frontend
+Chạy
+```
 cd client
-npm run dev để chạy
-# test backend
-cd server
-npm run dev để chạy
+npm run dev
+```
+để chạy
+## test backend
+Chạy
+```
+cd client
+npm run dev
+```
+để chạy backend
