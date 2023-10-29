@@ -134,7 +134,7 @@ export function App(props: Partial<DropzoneProps>) {
 
         <div>
           <Text size="xl" inline>
-            Quăng file hoặc nhắn vào đây để chọn
+            Quăng file hoặc nhắn vào để chọn
           </Text>
           <Text size="sm" c="dimmed" inline mt={7}>
             Chỉ có thể upload 1 file .txt
@@ -142,6 +142,7 @@ export function App(props: Partial<DropzoneProps>) {
         </div>
       </Group>
     </Dropzone>
+
   );
 }
 
