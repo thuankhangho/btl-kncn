@@ -1,2 +1,7 @@
 # btl-kncn
-Lập trình game rắn săn mồi
+# test frontend
+cd client
+npm run dev để chạy
+# test backend
+cd server
+npm run dev để chạy
