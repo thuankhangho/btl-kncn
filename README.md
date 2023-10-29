@@ -5,11 +5,11 @@ Chạy
 cd client
 npm run dev
 ```
-để chạy
+để chạy phần frontend.
 ## test backend
 Chạy
 ```
 cd client
 npm run dev
 ```
-để chạy backend
+để chạy phần backend.
