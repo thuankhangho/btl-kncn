@@ -96,55 +96,31 @@
 //   )
 // }
 
-import { Group, Text, rem } from '@mantine/core';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps } from '@mantine/dropzone';
-import '@mantine/dropzone/styles.css';
-export function App(props: Partial<DropzoneProps>) {
-  return (
-    <div>
-    <Dropzone
-      onDrop={(files) => {console.log('accepted files', files)}}
-      onReject={(files) => console.log('rejected files', files)}
-      maxFiles={1}
-      accept={
-        {'text/plain': ['.txt']}
-      }
-      {...props}
-      
-    >
-      <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
-        <Dropzone.Accept>
-          <IconUpload
-            style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-blue-6)' }}
-            stroke={1.5}
-          />
-        </Dropzone.Accept>
-        <Dropzone.Reject>
-          <IconX
-            style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-red-6)' }}
-            stroke={1.5}
-          />
-        </Dropzone.Reject>
-        <Dropzone.Idle>
-          <IconPhoto
-            style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-dimmed)' }}
-            stroke={1.5}
-          />
-        </Dropzone.Idle>
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-        <div>
-          <Text size="xl" inline>
-            Quăng file hoặc nhắn vào để chọn
-          </Text>
-          <Text size="sm" c="dimmed" inline mt={7}>
-            Chỉ có thể upload 1 file .txt
-          </Text>
-        </div>
-      </Group>
-    </Dropzone>
-    
-  </div>
+export function App() {
+  return (
+        <Form>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Text className="text-muted">
+          We'll never share your email with anyone else.
+        </Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control type="password" placeholder="Password" />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicCheckbox">
+        <Form.Check type="checkbox" label="Check me out" />
+      </Form.Group>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
 
 
   );
