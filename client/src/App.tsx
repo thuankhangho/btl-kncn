@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+// import { useCallback } from 'react';
+// import { useDropzone } from 'react-dropzone';
  
 // function App() {
 //   const [isOver, setIsOver] = useState(false);
@@ -132,6 +132,24 @@ export function App(props: Partial<DropzoneProps>) {
           />
         </Dropzone.Idle>
 
+        <form id="kanjiform">
+          <fieldset>
+            <label htmlFor="kanjiinput">Nhập dãy Kanji</label>
+            <input type="text" id="kanjiinput"></input>
+          </fieldset>
+          <fieldset>
+            <label htmlFor="submit">Nhập dãy Kanji</label>
+            <input type="submit" id="submit" value="Bắt đầu"></input>
+          </fieldset>
+          <fieldset>
+            <label htmlFor="submit">Nhập dãy Kanji</label>
+            <button type="button" id="stop" disabled={true}>Dừng</button>
+          </fieldset>
+          <fieldset>
+            <label htmlFor="submit">Nhập dãy Kanji</label>
+            <button type="button" id="continue" disabled={true}>Tiếp tục</button>
+          </fieldset>
+        </form>
         <div>
           <Text size="xl" inline>
             Quăng file hoặc nhắn vào để chọn
@@ -140,6 +158,7 @@ export function App(props: Partial<DropzoneProps>) {
             Chỉ có thể upload 1 file .txt
           </Text>
         </div>
+        <div id="content"></div>
       </Group>
     </Dropzone>
 
