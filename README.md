@@ -1,15 +1,28 @@
 # btl-kncn
 ## test frontend
-Chạy
+Setup môi trường chạy:
 ```
-cd client
-npm run dev
+cd client           <!---chuyển đường dẫn sang thư mục client-->
+npm install         <!---cài npm-->
+npm install vite    <!---cài Vite-->
 ```
-để chạy phần frontend.
+
+Để chạy frontend:
+```
+cd client           <!---chuyển đường dẫn sang thư mục client-->
+npm run dev         <!---chạy-->
+```
+
 ## test backend
-Chạy
+Setup môi trường chạy:
 ```
-cd client
-npm run dev
+cd server           <!---chuyển đường dẫn sang thư mục server-->
+npm install         <!---cài npm-->
+npm install nodemon <!---cài Nodemon-->
 ```
-để chạy phần backend.
+
+Để chạy backend:
+```
+cd server           <!---chuyển đường dẫn sang thư mục server-->
+npm run dev         <!---chạy-->
+```
