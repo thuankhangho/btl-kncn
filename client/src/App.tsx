@@ -95,35 +95,101 @@
 //     </div>
 //   )
 // }
+import React, { useState, useEffect } from 'react';
+import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+const FlashcardApp: React.FC = () => {
+  const [input, setInput] = useState('');
+  const [flashcards, setFlashcards] = useState<string[]>([]);
+  const [currentKanji, setCurrentKanji] = useState<string>('');
+  const [myTimeout, setMyTimeout] = useState<number>(0);
+  const [tabValue, setTabValue] = useState<number>(0);
 
-export function App() {
+  useEffect(() => {
+    return () => {
+      // Clear the interval when the component unmounts
+      clearInterval(myTimeout);
+    };
+  }, [myTimeout]);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const newFlashcards = input.split('・');
+    setFlashcards(newFlashcards);
+    setCurrentKanji(newFlashcards[Math.floor(Math.random() * newFlashcards.length)]);
+    mainloop();
+  };
+
+  const mainloop = () => {
+    const timeoutId = window.setInterval(() => {
+      displayCards();
+    }, 1000 /* Card time */);
+    setMyTimeout(timeoutId);
+  };
+
+  const displayCards = () => {
+    const randomIndex = Math.floor(Math.random() * flashcards.length);
+    setCurrentKanji(flashcards[randomIndex]);
+  };
+
+  const pause = () => {
+    console.log('Paused');
+    clearInterval(myTimeout);
+  };
+
+  const resume = () => {
+    console.log('Resumed');
+    mainloop();
+  };
+
   return (
-        <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-
-
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Paper elevation={3} style={{ width: '600px', padding: '24px', borderRadius: '12px' }}>
+        <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} centered>
+          <Tab label="Flashcards" />
+          <Tab label="Settings" />
+        </Tabs>
+        {tabValue === 0 && (
+          <form onSubmit={handleSubmit} style={{ marginTop: '24px' }}>
+            <TextField
+              id="kanjiinput"
+              label="Enter Flashcards (separated by ・)"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <Button variant="contained" color="primary" type="submit" style={{ marginTop: '16px' }}>
+              Start Flashcards
+            </Button>
+            {flashcards.length > 0 && (
+              <Typography variant="h1" style={{ fontSize: '100px', marginTop: '24px' }}>
+                {currentKanji}
+              </Typography>
+            )}
+            {flashcards.length > 0 && (
+              <div style={{ marginTop: '24px' }}>
+                <Button variant="outlined" color="secondary" onClick={pause}>
+                  Pause
+                </Button>
+                <Button variant="outlined" color="primary" onClick={resume} style={{ marginLeft: '12px' }}>
+                  Resume
+                </Button>
+              </div>
+            )}
+          </form>
+        )}
+        {tabValue === 1 && (
+          <div>
+            {/* Settings content goes here */}
+            <Typography variant="h4" style={{ marginTop: '24px' }}>
+              Settings content will be here.
+            </Typography>
+          </div>
+        )}
+      </Paper>
+    </div>
   );
-}
+};
 
-export default App
+export default FlashcardApp;
