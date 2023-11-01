@@ -154,9 +154,10 @@ const FlashcardApp: React.FC = () => {
             <TextField
               id="kanjiinput"
               label="Enter Flashcards (separated by ・)"
-              variant="outlined"
+              variant="outlined" 
               fullWidth
               margin="normal"
+              sx={{ mb: 2, '& .MuiInputBase-input': { fontSize: '1.5rem',height: '100px' } }} 
               onChange={(e) => setInput(e.target.value)}
             />
             <Button variant="contained" color="primary" type="submit" style={{ marginTop: '16px' }}>
