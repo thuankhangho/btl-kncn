@@ -4,7 +4,7 @@ Setup môi trường chạy:
 ```
 cd client           <!---chuyển đường dẫn sang thư mục client-->
 npm install         <!---cài npm-->
-npm install vite    <!---cài Vite-->
+npm install @mui/material @emotion/react @emotion/styled    <!---cài mui-->
 ```
 
 Để chạy frontend:
