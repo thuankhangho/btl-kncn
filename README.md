@@ -3,8 +3,7 @@
 Setup môi trường chạy:
 ```
 cd client           <!---chuyển đường dẫn sang thư mục client-->
-npm install         <!---cài npm-->
-npm install @mui/material @emotion/react @emotion/styled    <!---cài mui-->
+npm install         <!---cài các thư viện cần thiết-->
 ```
 
 Để chạy frontend:
@@ -17,8 +16,7 @@ npm run dev         <!---chạy-->
 Setup môi trường chạy:
 ```
 cd server           <!---chuyển đường dẫn sang thư mục server-->
-npm install         <!---cài npm-->
-npm install nodemon <!---cài Nodemon-->
+npm install         <!---cài các thư viện cần thiết-->
 ```
 
 Để chạy backend:

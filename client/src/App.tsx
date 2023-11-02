@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Input from './input.tsx';
-import FlashcardApp from './flashcard.tsx';
+import Input from './components/input.tsx';
+import FlashcardApp from './components/flashcard.tsx';
 
 const App: React.FC = () => (
 	<BrowserRouter>

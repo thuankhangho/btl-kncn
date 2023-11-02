@@ -99,9 +99,10 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const FlashcardApp: React.FC = () => {
+const Input: React.FC = () => {
   const [input, setInput] = useState('');
   const [flashcards, setFlashcards] = useState<string[]>([]);
+  const [newFlashcards, setnewFlashcards] = useState<string[]>([]);
   const [currentKanji, setCurrentKanji] = useState<string>('');
   const [myTimeout, setMyTimeout] = useState<number>(0);
   const [tabValue, setTabValue] = useState<number>(0);
@@ -114,8 +115,7 @@ const FlashcardApp: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newFlashcards = input.split('\n');
-    setFlashcards(newFlashcards);
+    setFlashcards(input.split('\n'));
     setCurrentKanji(newFlashcards[Math.floor(Math.random() * newFlashcards.length)]);
     mainloop();
   };
@@ -142,12 +142,6 @@ const FlashcardApp: React.FC = () => {
     mainloop();
   };
 
-  const Flashcard = () => {
-    return (
-      <Flashcard />
-    )
-  }
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Paper elevation={3} style={{ width: '600px', padding: '24px', borderRadius: '12px' }}>
@@ -157,7 +151,7 @@ const FlashcardApp: React.FC = () => {
           <Tab label="Cài đặt" />
         </Tabs>
         {tabValue === 0 && (
-          <form onSubmit={handleSubmit} style={{ marginTop: '24px' }}>
+          <form style={{ marginTop: '24px' }}>
             <TextField
               id="kanjiinput"
               label="Nhập vào chuỗi các Hán Tự cách nhau bởi ・"
@@ -169,8 +163,8 @@ const FlashcardApp: React.FC = () => {
               onChange={(e) => setInput(e.target.value)}
             />
             
-            <Button variant="contained" color="primary" type="submit" style={{ marginTop: '16px' }}>
-             <Link to="flashcard" style={{color: 'white'}}>Bắt đầu</Link>
+            <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
+             <Link to="flashcard" state={{data: input}} style={{color: 'white'}}>Bắt đầu</Link>
             </Button>
 
             {flashcards.length > 0 && (
@@ -234,4 +228,4 @@ const FlashcardApp: React.FC = () => {
   );
 };
 
-export default FlashcardApp;
+export default Input;
