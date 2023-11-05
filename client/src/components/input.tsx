@@ -95,9 +95,10 @@
 //     </div>
 //   )
 // }
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 const Input: React.FC = () => {
   const [input, setInput] = useState('');
@@ -185,35 +186,11 @@ const Input: React.FC = () => {
           </form>
         )}
         {tabValue === 1 && (
-          <form onSubmit={handleSubmit} style={{ marginTop: '24px' }}>
-            <TextField
-              id="kanjiinput"
-              label="Nhập vào chuỗi các Hán Tự cách nhau bởi ・"
-              variant="outlined" 
-              fullWidth
-              margin="normal"
-              sx={{ mb: 2, '& .MuiInputBase-input': { fontSize: '1.5rem',height: '100px' } }} 
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <Button variant="contained" color="primary" type="submit" style={{ marginTop: '16px' }}>
-              Bắt đầu
-            </Button>
-            {flashcards.length > 0 && (
-              <Typography variant="h1" style={{ fontSize: '100px', marginTop: '24px' }}>
-                {currentKanji}
-              </Typography>
-            )}
-            {flashcards.length > 0 && (
-              <div style={{ marginTop: '24px' }}>
-                <Button variant="outlined" color="secondary" onClick={pause}>
-                  Ngừng
-                </Button>
-                <Button variant="outlined" color="primary" onClick={resume} style={{ marginLeft: '12px' }}>
-                  Tiếp tục
-                </Button>
-              </div>
-            )}
-          </form>
+          <DropzoneArea
+          acceptedFiles={['text/*']}
+          dropzoneText={"Drag and drop an image here or click"}
+          onChange={(file: File) => console.log('File:', file)}
+        />
         )}
         {tabValue === 2 && (
           <div>

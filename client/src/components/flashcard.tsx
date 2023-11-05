@@ -2,11 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
+function processData(data: Array<String>) {
+  var res = new Map<string, string>();
+  for (var x of data) {
+    var temp = x.split(':')
+    res.set(temp[0],temp[1])
+  }
+  return res
+}
+
 export default function Flashcard() {
   const location = useLocation();
   const data = location.state?.data;
   const input = data.split('\n')
-  console.log("Input" + data)
+  const res = processData(input)
   return (
     <div>
       <h1>{data}</h1>
