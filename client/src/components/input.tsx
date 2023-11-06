@@ -98,7 +98,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { DropzoneArea } from 'material-ui-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 const Input: React.FC = () => {
   const [input, setInput] = useState('');
@@ -108,40 +108,93 @@ const Input: React.FC = () => {
   const [myTimeout, setMyTimeout] = useState<number>(0);
   const [tabValue, setTabValue] = useState<number>(0);
 
-  useEffect(() => {
-    return () => {
-      clearInterval(myTimeout);
-    };
-  }, [myTimeout]);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    setFlashcards(input.split('\n'));
-    setCurrentKanji(newFlashcards[Math.floor(Math.random() * newFlashcards.length)]);
-    mainloop();
-  };
+  // useEffect(() => {
+  //   return () => {
+  //     clearInterval(myTimeout);
+  //   };
+  // }, [myTimeout]);
 
-  const mainloop = () => {
-    const timeoutId = window.setInterval(() => {
-      displayCards();
-    }, 1000 /* Card time */);
-    setMyTimeout(timeoutId);
-  };
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
 
-  const displayCards = () => {
-    const randomIndex = Math.floor(Math.random() * flashcards.length);
-    setCurrentKanji(flashcards[randomIndex]);
-  };
+    console.log('name');
+  }
 
-  const pause = () => {
-    // console.log('Paused');
-    clearInterval(myTimeout);
-  };
+  function Accept(props) {
+    const {
+      acceptedFiles,
+      fileRejections,
+      getRootProps,
+      getInputProps
+    } = useDropzone({
+      accept: {
+        'text/plain': []
+      }
+    });
+  
+    const acceptedFileItems = acceptedFiles.map(file => (
+      <li key={file.path}>
+        {file.path} - {file.size} bytes
+      </li>
+    ));
+  
+    const fileRejectionItems = fileRejections.map(({ file, errors }) => (
+      <li key={file.path}>
+        {file.path} - {file.size} bytes
+        <ul>
+          {errors.map(e => (
+            <li key={e.code}>{e.message}</li>
+          ))}
+        </ul>
+      </li>
+    ));
+  
+    return (
+      <section className="container">
+        <div {...getRootProps({ className: 'dropzone' })}>
+          <input {...getInputProps()} />
+          <p>Drag 'n' drop some files here, or click to select files</p>
+          <em>(Only *.jpeg and *.png images will be accepted)</em>
+        </div>
+        <aside>
+          <h4>Accepted files</h4>
+          <ul>{acceptedFileItems}</ul>
+          <h4>Rejected files</h4>
+          <ul>{fileRejectionItems}</ul>
+        </aside>
+      </section>
+    );
+  }
 
-  const resume = () => {
-    // console.log('Resumed');
-    mainloop();
-  };
+  // const handleSubmit = (event: React.FormEvent) => {
+  //   event.preventDefault();
+  //   setFlashcards(input.split('\n'));
+  //   setCurrentKanji(newFlashcards[Math.floor(Math.random() * newFlashcards.length)]);
+  //   mainloop();
+  // };
+
+  // const mainloop = () => {
+  //   const timeoutId = window.setInterval(() => {
+  //     displayCards();
+  //   }, 1000 /* Card time */);
+  //   setMyTimeout(timeoutId);
+  // };
+
+  // const displayCards = () => {
+  //   const randomIndex = Math.floor(Math.random() * flashcards.length);
+  //   setCurrentKanji(flashcards[randomIndex]);
+  // };
+
+  // const pause = () => {
+  //   // console.log('Paused');
+  //   clearInterval(myTimeout);
+  // };
+
+  // const resume = () => {
+  //   // console.log('Resumed');
+  //   mainloop();
+  // };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -163,34 +216,18 @@ const Input: React.FC = () => {
               sx={{ mb: 2, '& .MuiInputBase-input': { fontSize: '1.5rem',height: '100px' } }} 
               onChange={(e) => setInput(e.target.value)}
             />
-            
             <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
              <Link to="flashcard" state={{data: input}} style={{color: 'white'}}>Bắt đầu</Link>
             </Button>
-
-            {flashcards.length > 0 && (
-              <Typography variant="h1" style={{ fontSize: '100px', marginTop: '24px' }}>
-                {currentKanji}
-              </Typography>
-            )}
-            {flashcards.length > 0 && (
-              <div style={{ marginTop: '24px' }}>
-                <Button variant="outlined" color="secondary" onClick={pause}>
-                  Ngừng
-                </Button>
-                <Button variant="outlined" color="primary" onClick={resume} style={{ marginLeft: '12px' }}>
-                  Tiếp tục
-                </Button>
-              </div>
-            )}
           </form>
         )}
         {tabValue === 1 && (
-          <DropzoneArea
-          acceptedFiles={['text/*']}
-          dropzoneText={"Drag and drop an image here or click"}
-          onChange={(file: File) => console.log('File:', file)}
-        />
+           <form onSubmit={handleSubmit}>
+          <Accept />
+          <Button variant="contained" color="primary" type='submit' style={{ marginTop: '16px' }}>
+            Bắt đầu
+          </Button>
+          </form>
         )}
         {tabValue === 2 && (
           <div>
