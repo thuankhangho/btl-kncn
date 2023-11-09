@@ -95,7 +95,7 @@
 //     </div>
 //   )
 // }
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
@@ -108,64 +108,87 @@ const Input: React.FC = () => {
   const [myTimeout, setMyTimeout] = useState<number>(0);
   const [tabValue, setTabValue] = useState<number>(0);
 
-
-  // useEffect(() => {
-  //   return () => {
-  //     clearInterval(myTimeout);
-  //   };
-  // }, [myTimeout]);
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    console.log('name');
   }
-
+  
+  const baseStyle = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#fafafa',
+    color: '#bdbdbd',
+    outline: 'none',
+    transition: 'border .24s ease-in-out'
+  };
+  
+  const focusedStyle = {
+    borderColor: '#2196f3'
+  };
+  
+  const acceptStyle = {
+    borderColor: '#00e676'
+  };
+  
+  const rejectStyle = {
+    borderColor: '#ff1744'
+  };
+  
   function Accept(props) {
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+      acceptedFiles.forEach((file: File) => {
+        const reader = new FileReader()
+        reader.onabort = () => console.log('file reading was aborted')
+        reader.onerror = () => console.log('file reading has failed')
+        reader.onload = () => {
+          const binaryStr = reader.result as string
+          setInput(binaryStr)
+        }
+        reader.readAsText(file)
+      })
+      
+    }, [])
     const {
       acceptedFiles,
-      fileRejections,
       getRootProps,
-      getInputProps
-    } = useDropzone({
+      getInputProps,
+      isFocused,
+      isDragAccept,
+      isDragReject
+    } = useDropzone({onDrop,
       accept: {
         'text/plain': []
-      }
+      },
+      multiple: false
     });
   
-    const acceptedFileItems = acceptedFiles.map(file => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-      </li>
-    ));
-  
-    const fileRejectionItems = fileRejections.map(({ file, errors }) => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-        <ul>
-          {errors.map(e => (
-            <li key={e.code}>{e.message}</li>
-          ))}
-        </ul>
-      </li>
-    ));
+    const style = useMemo(() => ({
+      ...baseStyle,
+      ...(isFocused ? focusedStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {})
+    }), [
+      isFocused,
+      isDragAccept,
+      isDragReject
+    ]);
   
     return (
-      <section className="container">
-        <div {...getRootProps({ className: 'dropzone' })}>
+      <div className="container">
+        <div {...getRootProps({style})}>
           <input {...getInputProps()} />
           <p>Drag 'n' drop some files here, or click to select files</p>
-          <em>(Only *.jpeg and *.png images will be accepted)</em>
         </div>
-        <aside>
-          <h4>Accepted files</h4>
-          <ul>{acceptedFileItems}</ul>
-          <h4>Rejected files</h4>
-          <ul>{fileRejectionItems}</ul>
-        </aside>
-      </section>
+      </div>
     );
   }
+
 
   // const handleSubmit = (event: React.FormEvent) => {
   //   event.preventDefault();
@@ -224,9 +247,9 @@ const Input: React.FC = () => {
         {tabValue === 1 && (
            <form onSubmit={handleSubmit}>
           <Accept />
-          <Button variant="contained" color="primary" type='submit' style={{ marginTop: '16px' }}>
-            Bắt đầu
-          </Button>
+          <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
+             <Link to="flashcard" state={{data: input}} style={{color: 'white'}}>Bắt đầu</Link>
+            </Button>
           </form>
         )}
         {tabValue === 2 && (

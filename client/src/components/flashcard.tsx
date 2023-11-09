@@ -1,93 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-
-function processData(data: Array<String>) {
-  var res = new Map<string, string>();
-  for (var x of data) {
-    var temp = x.split(':')
-    res.set(temp[0],temp[1])
-  }
-  return res
-}
+import { FlashcardArray } from "react-quizlet-flashcard";
 
 export default function Flashcard() {
   const location = useLocation();
   const data = location.state?.data;
   const input = data.split('\n')
-  const res = processData(input)
+
+  const res = new Array<Object>;
+  var idx = 1;
+  for (var x of input) {
+    var temp = x.split(':');
+    res.push({
+      id: idx,
+      frontHTML: temp[0],
+      backHTML: temp[1]
+    })
+    idx++;
+  }
+  console.log(res);
+
   return (
-    <div>
-      <h1>{data}</h1>
+    <div className="storyContainer">
+      <FlashcardArray
+        cards={res}
+        frontContentStyle={{
+          color: "black",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        backContentStyle={{
+          color: "black",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        FlashcardArrayStyle={{
+          color: "black"
+        }}
+      />
     </div>
   );
 }
-
-// const Flashcard: React.FC = () => {
-//   const [flashcards, setFlashcards] = useState<string[]>([]);
-//   const [currentKanji, setCurrentKanji] = useState<string>('');
-//   const [myTimeout, setMyTimeout] = useState<number>(0);
-//   const [tabValue, setTabValue] = useState<number>(0);
-
-
-//   useEffect(() => {
-//     return () => {
-//       clearInterval(myTimeout);
-//     };
-//   }, [myTimeout]);
-
-//   const handleSubmit = (event: React.FormEvent) => {
-//     event.preventDefault();
-//     const newFlashcards = input.split('\n');
-//     setFlashcards(newFlashcards);
-//     setCurrentKanji(newFlashcards[Math.floor(Math.random() * newFlashcards.length)]);
-//     mainloop();
-//   };
-
-//   const mainloop = () => {
-//     const timeoutId = window.setInterval(() => {
-//       displayCards();
-//     }, 1000 /* Card time */);
-//     setMyTimeout(timeoutId);
-//   };
-
-//   const displayCards = () => {
-//     const randomIndex = Math.floor(Math.random() * flashcards.length);
-//     setCurrentKanji(flashcards[randomIndex]);
-//   };
-
-//   const pause = () => {
-//     // console.log('Paused');
-//     clearInterval(myTimeout);
-//   };
-
-//   const resume = () => {
-//     // console.log('Resumed');
-//     mainloop();
-//   };
-
-//   function test() {
-//     console.log()
-//   }
-
-//   return (
-//     <div>Hello World</div>
-//   )
-//   // {flashcards.length > 0 && (
-//   //   <Typography variant="h1" style={{ fontSize: '100px', marginTop: '24px' }}>
-//   //     {currentKanji}
-//   //   </Typography>
-//   // )}
-//   // {flashcards.length > 0 && (
-//   //   <div style={{ marginTop: '24px' }}>
-//   //     <Button variant="outlined" color="secondary" onClick={pause}>
-//   //       Ngừng
-//   //     </Button>
-//   //     <Button variant="outlined" color="primary" onClick={resume} style={{ marginLeft: '12px' }}>
-//   //       Tiếp tục
-//   //     </Button>
-//   //   </div>
-//   // )}
-// };
-
-// export default Flashcard;
