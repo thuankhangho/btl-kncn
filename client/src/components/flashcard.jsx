@@ -6,9 +6,10 @@ export default function Flashcard() {
   const location = useLocation();
   const data = location.state?.data;
   const input = data.split("\n");
+  const size = input.length;
 
-  const res = input.map((element: String) => {
-    var temp = element.split(':');
+  const res = input.map(element => {
+    var temp = element.split('：');
     return {
       frontHTML: temp[0],
       backHTML: temp[1]
@@ -16,18 +17,23 @@ export default function Flashcard() {
   })
 
   const [autoflip, setAutoflip] = useState(false);
+  const [indexElement, setIndexElement] = useState(1);
   const currentCardFlipRef = useRef();
   const controlRef = useRef({});
 
+
   useEffect(() => {
-    if (autoflip == false)
-      return;
+    if (autoflip == false) return;
     //Implementing the setInterval method 
     currentCardFlipRef.current()
     const interval = setInterval(async () => {
         controlRef.current.nextCard()
         await delay(100)
         currentCardFlipRef.current()
+        if (indexElement === size) {
+          controlRef.current.resetArray();
+          setIndexElement(1)
+        }
       }, 2000)
 
     //Clearing the interval 
@@ -69,10 +75,15 @@ export default function Flashcard() {
           color: "black"
         }}
         currentCardFlipRef={
-          currentCardFlipRef
+          autoflip? currentCardFlipRef : undefined
         }
         forwardRef={
-          controlRef
+          autoflip? controlRef : undefined
+        }
+        onCardChange={(id,index) =>{
+          setIndexElement(index);
+        }
+          
         }
       />
     </div>
@@ -83,6 +94,6 @@ export default function Flashcard() {
   );
 }
 
-function delay(ms: number) {
+function delay(ms) {
   return new Promise( resolve => setTimeout(resolve, ms) );
 }

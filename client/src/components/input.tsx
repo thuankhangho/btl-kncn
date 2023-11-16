@@ -155,7 +155,7 @@ const Input: React.FC = () => {
       
     }, [])
     const {
-      acceptedFiles,
+      // acceptedFiles,
       getRootProps,
       getInputProps,
       isFocused,
@@ -181,7 +181,7 @@ const Input: React.FC = () => {
   
     return (
       <div className="container">
-        <div {...getRootProps({style})}>
+        <div {...getRootProps(style)}>
           <input {...getInputProps()} />
           <p>Drag 'n' drop some files here, or click to select files</p>
         </div>
