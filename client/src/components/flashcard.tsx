@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Flashcard() {
   const location = useLocation();
-  const data = location.state?.data;
+  const data = location.state.data;
   const input = data.split("\n");
   const size = input.length;
 
-  const res = input.map(element => {
+  const res = input.map((element: string) => {
     var temp = element.split('：');
     return {
       frontHTML: temp[0],
@@ -21,14 +21,13 @@ export default function Flashcard() {
   const currentCardFlipRef = useRef();
   const controlRef = useRef({});
 
-
   useEffect(() => {
     if (autoflip == false) return;
     //Implementing the setInterval method 
     currentCardFlipRef.current()
     const interval = setInterval(async () => {
         controlRef.current.nextCard()
-        await delay(100)
+        await delay(1000)
         currentCardFlipRef.current()
         if (indexElement === size) {
           controlRef.current.resetArray();
@@ -74,26 +73,25 @@ export default function Flashcard() {
         FlashcardArrayStyle={{
           color: "black"
         }}
-        currentCardFlipRef={
+        currentCardFlipRef = {
           autoflip? currentCardFlipRef : undefined
         }
-        forwardRef={
+        forwardRef = {
           autoflip? controlRef : undefined
         }
-        onCardChange={(id,index) =>{
+        onCardChange={(_id,index) =>{
           setIndexElement(index);
-        }
-          
+        }  
         }
       />
-    </div>
-    <button onClick={() => {
+    <button style={{ color: "white" }} onClick={() => {
       setAutoflip(!autoflip)
-      }}>Flip</button>
+      }}>Toggle Autoflip</button>
+    </div>
     </div>
   );
 }
 
-function delay(ms) {
+function delay(ms: number | undefined) {
   return new Promise( resolve => setTimeout(resolve, ms) );
 }
