@@ -96,7 +96,7 @@
 //   )
 // }
 import React, { useState, useCallback, useMemo } from 'react';
-import { Button, TextField, Tab, Tabs, Typography, Paper } from '@mui/material';
+import { Button, TextField, Tab, Tabs, Typography, Paper, Slider } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
@@ -107,6 +107,7 @@ const Input: React.FC = () => {
   const [currentKanji, setCurrentKanji] = useState<string>('');
   const [myTimeout, setMyTimeout] = useState<number>(0);
   const [tabValue, setTabValue] = useState<number>(0);
+  const [flashcardTextSize, setFlashcardTextSize] = useState<number>(1.5);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -236,28 +237,36 @@ const Input: React.FC = () => {
               multiline
               fullWidth
               margin="normal"
-              sx={{ mb: 2, '& .MuiInputBase-input': { fontSize: '1.5rem',height: '100px' } }} 
+              sx={{ mb: 2, '& .MuiInputBase-input': { fontSize: `${flashcardTextSize}rem`, height: '100px' } }}
               onChange={(e) => setInput(e.target.value)}
             />
             <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
-             <Link to="flashcard" state={{data: input}} style={{color: 'white'}}>Bắt đầu</Link>
+              <Link to="flashcard" state={{ data: input, flashcardTextSize }} style={{ color: 'white' }}>Bắt đầu</Link>
             </Button>
           </form>
         )}
         {tabValue === 1 && (
-           <form onSubmit={handleSubmit}>
-          <Accept />
-          <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
-             <Link to="flashcard" state={{data: input}} style={{color: 'white'}}>Bắt đầu</Link>
+          <form onSubmit={handleSubmit}>
+            <Accept />
+            <Button variant="contained" color="primary" style={{ marginTop: '16px' }}>
+              <Link to="flashcard" state={{ data: input }} style={{ color: 'white' }}>Bắt đầu</Link>
             </Button>
           </form>
         )}
         {tabValue === 2 && (
           <div>
-            {/* Settings content goes here */}
             <Typography variant="h4" style={{ marginTop: '24px' }}>
-              Settings content will be here.
+              Flashcard Text Size
             </Typography>
+            <Slider
+              value={flashcardTextSize}
+              min={1}
+              max={3}
+              step={0.1}
+              onChange={(e, value) => setFlashcardTextSize(value as number)}
+              valueLabelDisplay="auto"
+              valueLabelFormat={(value) => `${value}rem`}
+            />
           </div>
         )}
       </Paper>

@@ -2,7 +2,13 @@ import { useLocation } from 'react-router-dom';
 import { FlashcardArray } from "react-quizlet-flashcard";
 import { useEffect, useRef, useState } from 'react';
 
-export default function Flashcard() {
+
+interface FlashcardProps {
+  flashcardTextSize: number;
+}
+
+// Adjust the component function definition to include the new prop
+export default function Flashcard({ flashcardTextSize }: FlashcardProps) {
   const location = useLocation();
   const data = location.state.data;
   const input = data.split("\n");
@@ -23,75 +29,62 @@ export default function Flashcard() {
 
   useEffect(() => {
     if (autoflip == false) return;
-    //Implementing the setInterval method 
+
     currentCardFlipRef.current()
     const interval = setInterval(async () => {
-        controlRef.current.nextCard()
-        await delay(1000)
-        currentCardFlipRef.current()
-        if (indexElement === size) {
-          controlRef.current.resetArray();
-          setIndexElement(1)
-        }
-      }, 2000)
+      controlRef.current.nextCard()
+      await delay(1000)
+      currentCardFlipRef.current()
+      if (indexElement === size) {
+        controlRef.current.resetArray();
+        setIndexElement(1)
+      }
+    }, 2000)
 
-    //Clearing the interval 
-    return () => clearInterval(interval); 
-}); 
-  
-
-  // var idx = 1;
-  // for (var x of input) {
-  //   var temp = x.split(':');
-  //   res.push({
-  //     id: idx,
-  //     frontHTML: temp[0],
-  //     backHTML: temp[1]
-  //   })
-  //   idx = idx + 1;
-  // }
-  // console.log(res);
+    return () => clearInterval(interval);
+  });
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-    <div className="storyContainer">
-      <FlashcardArray
-      // cycle={true}
-        cards={res}
-        frontContentStyle={{
-          color: "black",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        backContentStyle={{
-          color: "black",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-        FlashcardArrayStyle={{
-          color: "black"
-        }}
-        currentCardFlipRef = {
-          autoflip? currentCardFlipRef : undefined
-        }
-        forwardRef = {
-          autoflip? controlRef : undefined
-        }
-        onCardChange={(_id,index) =>{
-          setIndexElement(index);
-        }  
-        }
-      />
-    <button style={{ color: "white" }} onClick={() => {
-      setAutoflip(!autoflip)
-      }}>Toggle Autoflip</button>
-    </div>
+      <div className="storyContainer">
+        <FlashcardArray
+          cards={res}
+          frontContentStyle={{
+            color: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: `${flashcardTextSize}rem`, 
+          }}
+          backContentStyle={{
+            color: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: `${flashcardTextSize}rem`, 
+          }}
+          FlashcardArrayStyle={{
+            color: "black",
+            fontSize: `${flashcardTextSize}rem`, 
+          }}
+          currentCardFlipRef={
+            autoflip ? currentCardFlipRef : undefined
+          }
+          forwardRef={
+            autoflip ? controlRef : undefined
+          }
+          onCardChange={(_id, index) => {
+            setIndexElement(index);
+          }}
+        />
+        <button style={{ color: "white" }} onClick={() => {
+          setAutoflip(!autoflip)
+        }}>Toggle Autoflip</button>
+      </div>
     </div>
   );
 }
 
 function delay(ms: number | undefined) {
-  return new Promise( resolve => setTimeout(resolve, ms) );
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
