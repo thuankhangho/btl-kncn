@@ -114,7 +114,7 @@ const Input: React.FC = () => {
           <form style={{ marginTop: "24px" }}>
             <TextField
               id="kanjiinput"
-              label="Nhập vào chuỗi các Hán Tự cách nhau bởi ・"
+              label="Nhập vào chuỗi các Hán Tự cách nhau bởi :"
               variant="outlined"
               multiline
               fullWidth

@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { FlashcardArray } from "react-quizlet-flashcard";
 import { useEffect, useRef, useState } from "react";
+import ModalDialog from "./modal";
 
 const FlashcardApp: React.FC = () => {
   const location = useLocation(); //lấy input từ đường link
@@ -83,6 +84,7 @@ const FlashcardApp: React.FC = () => {
           Toggle Autoflip
         </button>
       </div>
+        <ModalDialog />
     </div>
   );
 }
